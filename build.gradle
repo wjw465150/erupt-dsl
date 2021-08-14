@@ -1,0 +1,89 @@
+buildscript {
+  repositories {
+    mavenLocal()
+    maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }  //优先使用阿里的镜像
+    mavenCentral()
+  }
+
+  ext {
+    queryDslVersion = '4.4.0'    
+    erupt = [version : '1.7.3']
+    
+    //querydslGeneratedSourcesDir = file("${buildDir}/generated/sources/annotationProcessor/java/main")
+    querydslGeneratedSourcesDir = file("${buildDir}/generated-sources/java")
+  }
+   
+  dependencies {
+    // Required by QueryDSL GenericExporter
+    classpath("com.querydsl:querydsl-codegen:${queryDslVersion}")
+
+    classpath("xyz.erupt:erupt-jpa:${erupt.version}")  //JPA
+    classpath("xyz.erupt:erupt-upms:${erupt.version}")  //用户权限管理
+    classpath files("lib/erupt-bi-${erupt.version}.jar") //BI模块
+  }
+}
+
+plugins {
+  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+  id 'java-library'
+}
+
+sourceSets {
+  main {
+    java {
+      srcDirs += [querydslGeneratedSourcesDir]
+    }
+  }
+}
+
+compileJava {
+  options.compilerArgs << "-parameters" << "-Xlint:deprecation"
+  options.deprecation = true
+  
+  doFirst {
+    println "Generate QueryDsl CLass..."
+    println "options.compilerArgs:"+options.compilerArgs
+    
+    new com.querydsl.codegen.GenericExporter().with {
+      setKeywords(com.querydsl.codegen.Keywords.JPA)
+      setEntityAnnotation(javax.persistence.Entity.class)
+      setEmbeddableAnnotation(javax.persistence.Embeddable.class)
+      setEmbeddedAnnotation(javax.persistence.Embedded.class)
+      setSupertypeAnnotation(javax.persistence.MappedSuperclass.class)
+      setSkipAnnotation(javax.persistence.Transient.class)
+      setTargetFolder(querydslGeneratedSourcesDir)
+      export("xyz.erupt.jpa")
+      export("xyz.erupt.upms")
+      export("xyz.erupt.bi")
+    }
+  }
+
+}
+
+group = 'xyz.erup'
+version = '1.7.3'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+ext {
+  queryDslVersion = '4.4.0'
+  erupt = [version : '1.7.3']
+}
+
+
+repositories {
+  mavenLocal()
+  maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }  //优先使用阿里的镜像
+  mavenCentral()
+}
+
+dependencies {
+  implementation group: 'xyz.erupt', name: 'erupt-upms', version: "${erupt.version}"  //用户权限管理  
+  implementation files("lib/erupt-bi-${erupt.version}.jar") //BI模块
+  
+  // QueryDSL
+  implementation("com.querydsl:querydsl-jpa:${queryDslVersion}")
+  annotationProcessor("com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+
+}
+
