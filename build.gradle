@@ -26,7 +26,11 @@ buildscript {
 plugins {
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id 'java-library'
+  id 'maven-publish'
+  id 'signing' //使用signing plugin做数字签名
 }
+
+apply from: rootDir.canonicalPath + '/.gradle/publish.gradle'
 
 sourceSets {
   main {
@@ -70,6 +74,82 @@ ext {
   erupt = [version : '1.7.3']
 }
 
+jar {
+  manifest {
+    attributes 'Built-By': 'wjw465150@gmail.com',
+    'Build-Name': "${project.name}",
+    'Build-Version': "${project.version}"
+  }
+  excludes = ['**/test/**']
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+ // 定义发布什么
+ publications {
+   mavenJava(MavenPublication) {
+     // groupId,artifactId,version，如果不定义，则会按照默认值执行
+     groupId = "com.github.wjw465150"
+     artifactId = "erupt-dsl"
+     version = project.version
+
+     from components.java
+
+     pom {
+       // 构件名称
+       // 区别于artifactId，可以理解为artifactName
+       name = project.name
+       // 构件描述
+       description = 'Erupt Project QueryDsl Extension module.'
+       // 构件主页
+       url = 'https://github.com/wjw465150/erupt-dsl'
+       // 许可证名称和地址
+       licenses {
+         license {
+           name = 'The Apache License, Version 2.0'
+           url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+           distribution = 'Erupt Project QueryDsl Extension module.'
+         }
+       }
+       // 开发者信息
+       developers {
+         developer {
+           id = 'wjw465150'
+           name = 'wjw465150'
+           email = 'wjw465150@gmail.com'
+         }
+       }
+       // 版本控制仓库地址
+       scm {
+         url = "https://github.com/wjw465150/erupt-dsl"
+         connection = "https://github.com/wjw465150/erupt-dsl.git"
+         developerConnection = "https://github.com/wjw465150/erupt-dsl.git"
+       }
+     }
+   }
+ }
+
+ // 定义发布到哪里
+ repositories {
+   maven {
+     url "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+     credentials {
+       // 这里就是之前在issues.sonatype.org注册的账号,这些敏感信息为了防止泄露,我放到了`.gradle/publish.gradle`目录下
+       username sonatypeUsername
+       password sonatypePassword
+     }
+   }
+ }
+}
+
+//为所有的jar包做数字签名
+signing {
+ sign publishing.publications.mavenJava
+}
 
 repositories {
   mavenLocal()
