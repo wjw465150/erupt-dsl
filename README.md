@@ -1,6 +1,30 @@
-# Erupt QueryDsl Extension module.
+# Erupt Querydsl Extension module.
 
-[Erupt Project](https://github.com/erupts/erupt) QueryDsl Extension module.
+[Erupt Project](https://github.com/erupts/erupt) Querydsl Extension module(Erupt框架的一个Querydsl扩展模块).
+
+## Erupt简介
+
+Erupt 是一个低代码 全栈类 框架，它使用 Java 注解 动态生成页面以及增、删、改、查、权限控制等后台功能。
+零前端代码、零 CURD、自动建表，仅需 一个类文件 + 简洁的注解配置，快速开发企业级 Admin 管理后台。
+提供企业级中后台管理系统的全栈解决方案，大幅压缩研发周期，专注核心业务。
+
+> **💡提示:** 完美取代 代码生成器，开发后台管理系统更优解！
+
+
+
+## Querydsl简介
+
+Querydsl是一个框架，可用于构造静态类型的类似SQL的查询。可以通过诸如Querydsl之类的流畅API构造查询，而不是将查询编写为内联字符串或将其外部化为XML文件。
+
+例如，与简单字符串相比，使用流利的API的好处是
+
+- 在IDE中使用代码完成；会有代码提示和自动补全，较为高效
+- (几乎)语法安全；
+- 可以安全地引用域类型和属性；可以直接使用领域模型进行操作，毕竟本质就是面向对象
+- 更好地重构域类型的更改
+- 跟写SQL一样的方便
+
+
 
 ## Maven配置
 
@@ -84,8 +108,8 @@
     </dependency>
     <!-- erupt-dsl -->
     <dependency>
-      <groupId>com.querydsl</groupId>
-      <artifactId>querydsl-jpa</artifactId>
+      <groupId>com.github.wjw465150</groupId>
+      <artifactId>querydsl-dsl</artifactId>
       <version>${erupt.version}</version>
     </dependency>
   </dependencies>
@@ -119,7 +143,7 @@
 
 ```
 
-> 注：在使用过程中,如果遇到query type无法自动生成的情况，用maven更新一下项目即可解决(右键项目->Maven->Update Project)， 或者之间终端输入 mvn clean compile 编译一下就会自动生成Q 类
+> 注：在使用过程中,如果遇到Q类无法自动生成的情况，用maven更新一下项目即可解决(右键项目->Maven->Update Project)， 或者之间终端输入 mvn clean compile 编译一下就会自动生成Q 类
 
 
 
@@ -206,7 +230,7 @@ dependencies {
   annotationProcessor("com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
   
   //erupt-dsl
-  implementation group: 'xyz.erupt', name: 'erupt-dsl', version: "${erupt.version}"  //QueryDsl模块
+  implementation group: 'com.github.wjw465150', name: 'erupt-dsl', version: "${erupt.version}"  //QueryDsl模块
 
 }
 
