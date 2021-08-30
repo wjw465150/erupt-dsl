@@ -1,3 +1,6 @@
+//打包: gradlew -x test clean build 成功后发布:gradlew -x test publish 
+//然后登录https://oss.sonatype.org/#stagingRepositories来查看,你的提交在未处理前，是`open`状态，然后点击`Close`按钮。
+
 buildscript {
   repositories {
     mavenLocal()
