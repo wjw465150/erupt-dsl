@@ -148,4 +148,5 @@ Icon
 !**/wrapper/*.jar
 /bin/
 
+lib/
 /lib/erupt-bi-*.jar
