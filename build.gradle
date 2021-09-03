@@ -1,16 +1,16 @@
 //打包: gradlew -x test clean build 成功后发布:gradlew -x test publish 
-//然后登录https://oss.sonatype.org/#stagingRepositories来查看,你的提交在未处理前，是`open`状态，然后点击`Close`按钮。
+//然后登录https://oss.sonatype.org/#stagingRepositories来查看,你的提交在未处理前，是`open`状态，然后点击`Close`按钮;然后等一会点击`Release`来发布
 
 buildscript {
   repositories {
-    mavenLocal()
+    //mavenLocal()
     maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }  //优先使用阿里的镜像
     mavenCentral()
   }
 
   ext {
     queryDslVersion = '4.4.0'    
-    erupt = [version : '1.8.0']
+    erupt = [version : '1.8.1']
     
     //querydslGeneratedSourcesDir = file("${buildDir}/generated/sources/annotationProcessor/java/main")
     querydslGeneratedSourcesDir = file("${buildDir}/generated-sources/java")
@@ -68,13 +68,13 @@ compileJava {
 }
 
 group = 'xyz.erup'
-version = '1.8.0'
+version = '1.8.1'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 ext {
   queryDslVersion = '4.4.0'
-  erupt = [version : '1.8.0']
+  erupt = [version : '1.8.1']
 }
 
 jar {
@@ -156,7 +156,7 @@ signing {
 }
 
 repositories {
-  mavenLocal()
+  //mavenLocal()
   maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }  //优先使用阿里的镜像
   mavenCentral()
 }
