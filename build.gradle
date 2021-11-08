@@ -10,7 +10,7 @@ buildscript {
 
   ext {
     queryDslVersion = '4.4.0'    
-    erupt = [version : '1.8.5']
+    erupt = [version : '1.9.0']
     
     //querydslGeneratedSourcesDir = file("${buildDir}/generated/sources/annotationProcessor/java/main")
     querydslGeneratedSourcesDir = file("${buildDir}/generated-sources/java")
@@ -68,13 +68,13 @@ compileJava {
 }
 
 group = 'xyz.erup'
-version = '1.8.5'
+version = '1.9.0'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 ext {
   queryDslVersion = '4.4.0'
-  erupt = [version : '1.8.5']
+  erupt = [version : '1.9.0']
 }
 
 jar {
@@ -97,11 +97,19 @@ publishing {
  publications {
    mavenJava(MavenPublication) {
      // groupId,artifactId,version，如果不定义，则会按照默认值执行
-     groupId = "com.github.wjw465150"
+     groupId = "com.github.wjw465150"  //Sonatype上的Issue里填写的`Group Id`,可以跟package路径完全不一样
      artifactId = "erupt-dsl"
      version = project.version
 
      from components.java
+     versionMapping {  //为了解决: Gradle, SpringBoot, MavenPublish - Publication only contains dependencies and/or constraints without a version
+       usage('java-api') {
+         fromResolutionOf('runtimeClasspath')
+       }
+       usage('java-runtime') {
+         fromResolutionResult()
+       }
+     }
 
      pom {
        // 构件名称
