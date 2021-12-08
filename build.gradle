@@ -10,7 +10,7 @@ buildscript {
 
   ext {
     queryDslVersion = '4.4.0'    
-    erupt = [version : '1.9.1']
+    erupt = [version : '1.9.2']
     
     //querydslGeneratedSourcesDir = file("${buildDir}/generated/sources/annotationProcessor/java/main")
     querydslGeneratedSourcesDir = file("${buildDir}/generated-sources/java")
@@ -68,13 +68,13 @@ compileJava {
 }
 
 group = 'xyz.erup'
-version = '1.9.1'
+version = '1.9.2'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 ext {
   queryDslVersion = '4.4.0'
-  erupt = [version : '1.9.1']
+  erupt = [version : '1.9.2']
 }
 
 jar {
