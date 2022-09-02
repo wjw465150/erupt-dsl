@@ -12,8 +12,7 @@ buildscript {
     queryDslVersion = '4.4.0'    
     erupt = [version : '1.10.12']
     
-    //querydslGeneratedSourcesDir = file("${buildDir}/generated/sources/annotationProcessor/java/main")
-    querydslGeneratedSourcesDir = file("${buildDir}/generated-sources/java")
+    querydslGeneratedSourcesDir = file("$projectDir/src/main/generated")
   }
    
   dependencies {
@@ -48,6 +47,18 @@ compileJava {
   options.deprecation = true
   
   doFirst {
+    /*
+     * This is a workaround to delete the file that will be created by the annotation processor if it already exists.
+     * There is a known bug in the Java compiler and JDK 8 which should be fixed at JDK 9.
+     * http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8067747 <-- Master report
+     * http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8146348 <-- duplicates master report
+     */
+    if ( querydslGeneratedSourcesDir.exists() ) {
+      FileCollection collection = files { querydslGeneratedSourcesDir.listFiles() }
+      collection.each { delete it }
+    }
+    querydslGeneratedSourcesDir.mkdirs()
+    
     println "Generate QueryDsl CLass..."
     println "options.compilerArgs:"+options.compilerArgs
     
