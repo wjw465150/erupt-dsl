@@ -2,19 +2,19 @@
 //然后登录https://oss.sonatype.org/#stagingRepositories来查看,你的提交在未处理前，是`open`状态，然后点击`Close`按钮;然后等一会点击`Release`来发布
 
 buildscript {
+  ext {
+    queryDslVersion = '4.4.0'
+    erupt = [version : '1.10.13']
+    
+    querydslGeneratedSourcesDir = file("$projectDir/src/main/generated")
+  }
+   
   repositories {
     //mavenLocal()
     //maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }  //优先使用阿里的镜像
     mavenCentral()
   }
 
-  ext {
-    queryDslVersion = '4.4.0'    
-    erupt = [version : '1.10.12']
-    
-    querydslGeneratedSourcesDir = file("$projectDir/src/main/generated")
-  }
-   
   dependencies {
     // Required by QueryDSL GenericExporter
     classpath("com.querydsl:querydsl-codegen:${queryDslVersion}")
@@ -33,6 +33,12 @@ plugins {
 }
 
 apply from: rootDir.canonicalPath + '/.gradle/publish.gradle'
+
+group = 'xyz.erup'
+version = erupt.version
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
 
 sourceSets {
   main {
@@ -76,16 +82,6 @@ compileJava {
     }
   }
 
-}
-
-group = 'xyz.erup'
-version = '1.10.12'
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
-
-ext {
-  queryDslVersion = '4.4.0'
-  erupt = [version : '1.10.12']
 }
 
 jar {

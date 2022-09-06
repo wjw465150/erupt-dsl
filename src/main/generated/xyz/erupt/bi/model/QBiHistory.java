@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -18,13 +17,11 @@ public class QBiHistory extends EntityPathBase<BiHistory> {
 
     private static final long serialVersionUID = 1660421240L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
-
     public static final QBiHistory biHistory = new QBiHistory("biHistory");
 
     public final xyz.erupt.jpa.model.QBaseModel _super = new xyz.erupt.jpa.model.QBaseModel(this);
 
-    public final QBaseBi bi;
+    public final NumberPath<Long> biId = createNumber("biId", Long.class);
 
     //inherited
     public final NumberPath<Long> id = _super.id;
@@ -38,24 +35,15 @@ public class QBiHistory extends EntityPathBase<BiHistory> {
     public final StringPath sqlStatement = createString("sqlStatement");
 
     public QBiHistory(String variable) {
-        this(BiHistory.class, forVariable(variable), INITS);
+        super(BiHistory.class, forVariable(variable));
     }
 
     public QBiHistory(Path<? extends BiHistory> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QBiHistory(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QBiHistory(PathMetadata metadata, PathInits inits) {
-        this(BiHistory.class, metadata, inits);
-    }
-
-    public QBiHistory(Class<? extends BiHistory> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.bi = inits.isInitialized("bi") ? new QBaseBi(forProperty("bi")) : null;
+        super(BiHistory.class, metadata);
     }
 
 }
