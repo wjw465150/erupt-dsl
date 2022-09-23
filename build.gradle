@@ -4,7 +4,7 @@
 buildscript {
   ext {
     queryDslVersion = '4.4.0'
-    erupt = [version : '1.10.13']
+    erupt = [version : '1.10.14']
     
     querydslGeneratedSourcesDir = file("$projectDir/src/main/generated")
   }
