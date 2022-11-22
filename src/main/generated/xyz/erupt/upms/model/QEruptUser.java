@@ -40,6 +40,8 @@ public class QEruptUser extends EntityPathBase<EruptUser> {
 
     public final QEruptPost eruptPost;
 
+    public final DateTimePath<java.util.Date> expireDate = createDateTime("expireDate", java.util.Date.class);
+
     //inherited
     public final NumberPath<Long> id;
 
